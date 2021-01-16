@@ -1,31 +1,19 @@
-
-
-
-function Food({name,age}) {
-  return <h1>{name} likes apple{age}</h1> 
-}
-
-
-const foodILike = [{'name':'a',
-                    'age':'10'
-                    },
-                    {'name':'b',
-                     'age':'20'
-                    }]
-
-
-function renderFood(dish) {
-  return <Food name={dish.name} picture={dish.image} />
-}
-
+import React from "react";
+import { HashRouter, Route } from "react-router-dom";
+import Home from "./routes/Home";
+import About from "./routes/About";
+import Detail from "./routes/Detail";
+import Navigation from "./components/Navigation";
+import "./App.css";
 
 function App() {
   return (
-    <div>
-      {foodILike.map(c => {
-      return <Food name = {c.name} age = {c.age} />
-      })}
-    </div>
+    <HashRouter>
+      <Navigation />
+      <Route path="/" exact={true} component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/movie/:id" component={Detail} />
+    </HashRouter>
   );
 }
 
