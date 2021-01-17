@@ -1,20 +1,49 @@
 import React from "react";
-import { HashRouter, Route } from "react-router-dom";
-import Home from "./routes/Home";
-import About from "./routes/About";
-import Detail from "./routes/Detail";
-import Navigation from "./components/Navigation";
-import "./App.css";
+import axios from "axios";
+import Movie from "./Movie";
+import './App.css';
+
 
 function App() {
-  return (
-    <HashRouter>
-      <Navigation />
-      <Route path="/" exact={true} component={Home} />
-      <Route path="/about" component={About} />
-      <Route path="/movie/:id" component={Detail} />
-    </HashRouter>
-  );
-}
+  state = {
+    isLoading: true,
+    movies: []
+  };
+    getMovies = async () => {
+      const {
+        data : {
+          data : {movies}
+        }
+      } = await axios.get(
+        'https://yts-proxy.nomadcoders1.now.sh/list_movies.json'
+      );
+      this.setState({movies, isLoading: false});
+    };
 
+    componentDidMount() {
+      this.getMovies();
+    }
+    render () {
+      const { isLoading} = this.state;
+      return <div>{isLoading ? 'Loading...' :'We are ready'}</div>;
+    }
+  }
 export default App;
+
+
+// {siLoading ? (
+//   <div className='loader'>
+//     <span className='Loader__text'>Loading...</span>
+//   </div>
+// ) : (<div className='movies'>
+//   {movies.map(movie => {
+//     <Movie
+//     key = {movie.id}
+//     id = {movie.id}
+//     year = {movie.year}
+//     title = {movie.title}
+//     summary = {movie.summary}
+//     poster = {movie.mediym_cover_image}
+
+//   })} </div>
+// </section>
